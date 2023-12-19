@@ -1,8 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@1,500&display=swap');
+
 
 .form-control {
     margin: 1rem 0;
-    font-family: 'Roboto', sans-serif;
 }
 
 .form-control label,

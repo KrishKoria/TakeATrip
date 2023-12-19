@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@1,500&display=swap');
-
 .modal {
     z-index: 100;
     position: fixed;
@@ -9,7 +7,7 @@
     background: white;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
     border-radius: 8px;
-    font-family: 'Roboto', sans-serif;
+    
 }
 
 .modal__header {
@@ -17,7 +15,7 @@
     padding: 1rem 0.5rem;
     background: #2a006e;
     color: white;
-    font-family: 'Roboto', sans-serif;
+    
 }
 
 .modal__header h2 {
@@ -26,44 +24,44 @@
 
 .modal__content {
     padding: 1rem 0.5rem;
-    font-family: 'Roboto', sans-serif;
+    
 }
 
 .modal__footer {
     padding: 1rem 0.5rem;
-    font-family: 'Roboto', sans-serif;
+    
 }
 
 @media (min-width: 768px) {
     .modal {
         left: calc(50% - 20rem);
         width: 40rem;
-        font-family: 'Roboto', sans-serif;
+        
     }
 }
 
 .modal-enter {
     transform: translateY(-10rem);
     opacity: 0;
-    font-family: 'Roboto', sans-serif;
+    
 }
 
 .modal-enter-active {
     transform: translateY(0);
     opacity: 1;
     transition: all 200ms;
-    font-family: 'Roboto', sans-serif;
+    
 }
 
 .modal-exit {
     transform: translateY(0);
     opacity: 1;
-    font-family: 'Roboto', sans-serif;
+    
 }
 
 .modal-exit-active {
     transform: translateY(-10rem);
     opacity: 0;
     transition: all 200ms;
-    font-family: 'Roboto', sans-serif;
+    
 }

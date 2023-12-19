@@ -1,7 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@1,500&display=swap');
-
 .button {
-  font-family: 'Roboto', sans-serif;
+  font: inherit;
   padding: 0.5rem 1.5rem;
   border: 1px solid #ff0055;
   border-radius: 4px;

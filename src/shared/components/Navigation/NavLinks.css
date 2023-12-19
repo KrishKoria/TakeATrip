@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@1,500&display=swap');
-
 .nav-links {
   list-style: none;
   margin: 0;
@@ -10,7 +8,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  font-family: 'Roboto', sans-serif;
 }
 
 .nav-links li {
@@ -54,8 +51,7 @@
 @media (min-width: 768px) {
   .nav-links {
     flex-direction: row;
-    font-family: 'Roboto', sans-serif;
-  }
+    }
 
   .nav-links li {
     margin: 0 0.5rem;

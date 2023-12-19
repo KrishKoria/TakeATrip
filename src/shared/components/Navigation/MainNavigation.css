@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@1,500&display=swap');
-
 .main-navigation__menu-btn {
   width: 3rem;
   height: 3rem;
@@ -24,7 +22,7 @@
 }
 
 .main-navigation__title a {
-  font-family: 'Roboto', sans-serif;
+  font: inherit;
   font-size: 56px;
   text-decoration: none;
   color: #222831;
