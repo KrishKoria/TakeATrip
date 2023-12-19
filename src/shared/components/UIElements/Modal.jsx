@@ -10,9 +10,8 @@ const ModalOverlay = (props) => {
             <header className={`modal__header ${props.headerClass}`}>
                 <h2>{props.header}</h2>
             </header>
-            {/*<form onSubmit={props.onSubmit ? props.onSubmit : (event) => event.preventDefault()}>
-            Don't Understand Why,But Keeping This makes the font change on website when Map Modal is Closed*/}
-            <form>
+            <form onSubmit={props.onSubmit ? props.onSubmit : (event) => event.preventDefault()}>
+                {/*Don't Understand Why,But Keeping This makes the font change on website when Map Modal is Closed*/}
                 <div className={`modal__content ${props.contentClass}`}>
                     {props.children}
                 </div>
