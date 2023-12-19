@@ -6,13 +6,13 @@ export const NavLinks = () => {
                 <NavLink to={"/"} exact>ALL USERS</NavLink>
             </li>
             <li>
-                <NavLink to={"/u1/places"} exact>MY PLACES</NavLink>
+                <NavLink to={"/Take-A-Trip/u1/places"} exact>MY PLACES</NavLink>
             </li>
             <li>
-                <NavLink to={"/places/new"} exact>ADD PLACE</NavLink>
+                <NavLink to={"/Take-A-Trip/places/new"} exact>ADD PLACE</NavLink>
             </li>
             <li>
-                <NavLink to={"/auth"} exact>AUTHENTICATE YOURSELF</NavLink>
+                <NavLink to={"/Take-A-Trip/auth"} exact>AUTHENTICATE YOURSELF</NavLink>
             </li>
         </ul>
     )

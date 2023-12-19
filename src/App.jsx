@@ -11,11 +11,11 @@ const App = () => {
             <MainNavigation/>
             <main>
                 <Routes>
-                    <Route path="/" element={<Users/>}/>
-                    <Route path="*" element={<Navigate to='/' replace/>}/>
-                    <Route path="/places/new" element={<NewPlace/>}/>
-                    <Route path="/:userId/places" element={<UserPlaces/>}/>
-                    <Route path="/places/:placeid" element={<UpdatePlace/>}/>
+                    <Route path="/Take-A-Trip/" element={<Users/>}/>
+                    <Route path="*" element={<Navigate to='/Take-A-Trip/' replace/>}/>
+                    <Route path="/Take-A-Trip/places/new" element={<NewPlace/>}/>
+                    <Route path="/Take-A-Trip/:userId/places" element={<UserPlaces/>}/>
+                    <Route path="/Take-A-Trip/places/:placeid" element={<UpdatePlace/>}/>
                 </Routes>
             </main>
         </BrowserRouter>

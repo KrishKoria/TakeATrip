@@ -1,4 +1,4 @@
-import "./UpdatePlace.css"
+import "./PlaceForm.css"
 import {useParams} from "react-router-dom";
 import {Input} from "../../shared/components/FormElements/Input.jsx";
 import Button from "../../shared/components/FormElements/Button.jsx";
@@ -41,7 +41,7 @@ export const UpdatePlace = () => {
     }
 
     return (
-        <form>
+        <form className={"place-form"}>
             <Input id="title" element="input" type="text" label="Title" validators={[VALIDATOR_REQUIRE(), VALIDATOR_MINLENGTH(5)]}
                    errorText="Please enter a valid title." onInput={() => {
             }} value={loadedPlace.title} valid={true}/>
