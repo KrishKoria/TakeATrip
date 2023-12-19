@@ -1,7 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@1,500&display=swap');
+
 .place-list {
   list-style: none;
   margin: 1rem auto;
   padding: 0;
   width: 90%;
   max-width: 40rem;
+  font-family: 'Roboto', sans-serif;
 }
