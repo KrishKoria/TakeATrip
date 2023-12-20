@@ -5,21 +5,50 @@ import {MainNavigation} from "./shared/components/Navigation/MainNavigation.jsx"
 import {UserPlaces} from "./places/pages/UserPlaces.jsx";
 import {UpdatePlace} from "./places/pages/UpdatePlace.jsx";
 import {Authenticate} from "./users/pages/Authenticate.jsx";
+import {authContext} from "./shared/components/Util/Context/auth-context.jsx";
+import {useState, useCallback} from "react";
+import React from "react";
+
 const App = () => {
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    const login = useCallback(() => {
+        setIsLoggedIn(true);
+    }, [])
+    const logout = useCallback(() => {
+        setIsLoggedIn(false);
+    }, [])
+
+    let routes;
+    if (isLoggedIn) {
+        routes = (
+            <Routes>
+                <Route path="/" element={<Users/>}/>
+                <Route path="/:userId/places" element={<UserPlaces/>}/>
+                <Route path="/places/new" element={<NewPlace/>}/>
+                <Route path="/places/:placeid" element={<UpdatePlace/>}/>
+                <Route path="*" element={<Navigate to='/' replace/>}/>
+            </Routes>
+        )
+    } else {
+        routes = (
+            <Routes>
+                <Route path="/" element={<Users/>}/>
+                <Route path="/:userId/places" element={<UserPlaces/>}/>
+                <Route path="/auth" element={<Authenticate/>}/>
+                <Route path="*" element={<Navigate to='/auth' replace/>}/>
+            </Routes>
+        )
+    }
     return (
-        <BrowserRouter>
-            <MainNavigation/>
-            <main>
-                <Routes>
-                    <Route path="/Take-A-Trip/" element={<Users/>}/>
-                    <Route path="*" element={<Navigate to='/Take-A-Trip/' replace/>}/>
-                    <Route path="/Take-A-Trip/places/new" element={<NewPlace/>}/>
-                    <Route path="/Take-A-Trip/:userId/places" element={<UserPlaces/>}/>
-                    <Route path="/Take-A-Trip/places/:placeid" element={<UpdatePlace/>}/>
-                    <Route path="/Take-A-Trip/auth" element={<Authenticate/>}/>
-                </Routes>
-            </main>
-        </BrowserRouter>
+        <authContext.Provider value={{isLoggedIn: isLoggedIn, login: login, logout: logout}}>
+            <BrowserRouter>
+                <MainNavigation/>
+                <main>
+                    {routes}
+                </main>
+            </BrowserRouter>
+        </authContext.Provider>
     )
 }
 

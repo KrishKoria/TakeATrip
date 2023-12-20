@@ -5,8 +5,10 @@ import Button from "../../shared/components/FormElements/Button.jsx";
 import {useState} from "react";
 import {Modal} from "../../shared/components/UIElements/Modal.jsx";
 import {Map} from "../../shared/components/UIElements/map.jsx";
-
+import {useContext} from "react";
+import {authContext} from "../../shared/components/Util/Context/auth-context.jsx";
 export const PlaceItem = (props) => {
+    const auth = useContext(authContext);
     const [showMap, setShowMap] = useState(false);
     const [showConfirmModal, setShowConfirmModal] = useState(false);
     const openMapHandler = () => setShowMap(true);
@@ -46,8 +48,12 @@ export const PlaceItem = (props) => {
                     </div>
                     <div className={"place-item__actions"}>
                         <Button inverse onClick={openMapHandler}>VIEW ON MAP</Button>
-                        <Button to={`/Take-A-Trip/places/${props.id}`}>EDIT</Button>
+                        {auth.isLoggedIn && (
+                        <Button to={`/places/${props.id}`}>EDIT</Button>
+                        )}
+                        {auth.isLoggedIn && (
                         <Button danger onClick={showDeleteWarningHandler}>DELETE</Button>
+                        )}
                     </div>
                 </Card>
             </li>

@@ -5,9 +5,11 @@ import React from "react";
 import "./Auth.css"
 import {Card} from "../../shared/components/UIElements/Card.jsx";
 import {useForm} from "../../shared/components/Util/Hooks/Form-hook.jsx";
-import {useState} from "react";
+import {useState, useContext} from "react";
+import {authContext} from "../../shared/components/Util/Context/auth-context.jsx";
 
 export const Authenticate = () => {
+    const auth = useContext(authContext);
     const signupMsg = "Don't Have an Account, SIGNUP here";
     const loginMsg = "Already Have an Account, LOGIN here";
     const [isLoginMode, setIsLoginMode] = useState(true);
@@ -25,6 +27,7 @@ export const Authenticate = () => {
     const authSubmitHandler = event => {
         event.preventDefault();
         console.log(formState.inputs);
+        auth.login();
     }
     const switchHandler = () => {
         if (!isLoginMode) {
