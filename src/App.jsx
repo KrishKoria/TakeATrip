@@ -4,7 +4,7 @@ import {NewPlace} from "./places/pages/NewPlace.jsx";
 import {MainNavigation} from "./shared/components/Navigation/MainNavigation.jsx";
 import {UserPlaces} from "./places/pages/UserPlaces.jsx";
 import {UpdatePlace} from "./places/pages/UpdatePlace.jsx";
-
+import {Authenticate} from "./users/pages/Authenticate.jsx";
 const App = () => {
     return (
         <BrowserRouter>
@@ -16,6 +16,7 @@ const App = () => {
                     <Route path="/Take-A-Trip/places/new" element={<NewPlace/>}/>
                     <Route path="/Take-A-Trip/:userId/places" element={<UserPlaces/>}/>
                     <Route path="/Take-A-Trip/places/:placeid" element={<UpdatePlace/>}/>
+                    <Route path="/Take-A-Trip/auth" element={<Authenticate/>}/>
                 </Routes>
             </main>
         </BrowserRouter>
