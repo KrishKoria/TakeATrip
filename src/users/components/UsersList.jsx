@@ -1,6 +1,6 @@
 import "./UsersList.css"
 import {UsersItem} from "./UsersItem.jsx";
-import Card from "../../shared/components/UIElements/Card.jsx";
+import {Card} from "../../shared/components/UIElements/Card.jsx";
 export const UsersList = (props) => {
     if(props.items.length === 0){
         return (
