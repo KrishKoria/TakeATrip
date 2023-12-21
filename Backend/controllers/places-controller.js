@@ -1,5 +1,6 @@
 import {HttpErrors} from "../models/http-errors.js";
-import { v4 as uuidv4 } from 'uuid'
+import {v4 as uuidv4} from 'uuid'
+import {validationResult} from "express-validator";
 
 let DUMMY_PLACES = [
     {
@@ -39,15 +40,19 @@ export const getPlacesByUserId = (req, res, next) => {
     }
 }
 
-export const createNewPlace = (req, res) => {
+export const createNewPlace = (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        next(new HttpErrors("Invalid inputs passed, please check your data.", 422));
+    }
     const {title, description, coordinates, address, creator} = req.body;
     const createdPlace = {
-        id : uuidv4(),
-        title : title,
-        description : description,
+        id: uuidv4(),
+        title: title,
+        description: description,
         location: coordinates,
-        address : address,
-        creator : creator
+        address: address,
+        creator: creator
     }
     DUMMY_PLACES.push(createdPlace);
     res.status(201).json({place: createdPlace});
@@ -62,15 +67,18 @@ export const deletePlace = (req, res, next) => {
         res.status(200).json({message: "Deleted place."});
     }
 }
-
-export const updatePlace = (req, res) => {
+export const updatePlace = (req, res, next) => {
     const placeId = req.params.pid;
     const {title, description} = req.body;
-    const foundPlace = DUMMY_PLACES.find(p => p.id === placeId);
-    const updatedPlace = {...DUMMY_PLACES.find(p => p.id === placeId)};
-    const placeIndex = DUMMY_PLACES.findIndex(p => p.id === placeId);
-    updatedPlace.title = title || foundPlace.title;
-    updatedPlace.description = description || foundPlace.description;
-    DUMMY_PLACES[placeIndex] = updatedPlace;
-    res.status(200).json({place: updatedPlace});
+    if (description.length < 5) {
+        next(new HttpErrors("Description must be at least 5 characters long.", 422));
+    } else {
+        const foundPlace = DUMMY_PLACES.find(p => p.id === placeId);
+        const updatedPlace = {...DUMMY_PLACES.find(p => p.id === placeId)};
+        const placeIndex = DUMMY_PLACES.findIndex(p => p.id === placeId);
+        updatedPlace.title = title || foundPlace.title;
+        updatedPlace.description = description || foundPlace.description;
+        DUMMY_PLACES[placeIndex] = updatedPlace;
+        res.status(200).json({place: updatedPlace});
+    }
 }
