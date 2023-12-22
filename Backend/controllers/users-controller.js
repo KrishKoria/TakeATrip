@@ -1,4 +1,3 @@
-import {v4 as uuidv4} from 'uuid'
 import {validationResult} from "express-validator";
 import {HttpErrors} from "../models/http-errors.js";
 
@@ -26,7 +25,7 @@ export const userSignUp = (req, res, next) => {
             next(new HttpErrors('User already exists, Please login instead', 422))
         }
         const newUser = {
-            id: uuidv4(),
+            id:"",
             name: username,
             email,
             password
