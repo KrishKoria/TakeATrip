@@ -17,7 +17,7 @@ export const userSignUp = async (req, res, next) => {
     if (!errors.isEmpty()) {
         next(new HttpErrors('Invalid inputs passed, please check your data', 422))
     } else {
-        const {name, email, password, places} = req.body;
+        const {name, email, password} = req.body;
         let existingUser;
         try {
             existingUser = await User.findOne({email: email});
@@ -33,7 +33,7 @@ export const userSignUp = async (req, res, next) => {
             email,
             image: 'https://live.staticflickr.com/7631/26849088292_36fc52ee90_b.jpg',
             password,
-            places
+            places: []
         });
         try {
             await createdUser.save();
