@@ -17,7 +17,9 @@ export const userSignUp = async (req, res, next) => {
     if (!errors.isEmpty()) {
         next(new HttpErrors('Invalid inputs passed, please check your data', 422))
     } else {
-        const {name, email, password} = req.body;
+        const name = req.body.name;
+        const email = req.body.email;
+        const password = req.body.password;
         let existingUser;
         try {
             existingUser = await User.findOne({email: email});
