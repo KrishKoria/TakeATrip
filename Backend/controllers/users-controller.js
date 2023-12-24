@@ -59,6 +59,7 @@ export const userLogin = async (req, res, next) => {
         return next(new HttpErrors('Could Not Login, Please check credentials again', 401))
     }
 
-    res.status(200).json({message: 'User logged in'})
-
+    res.status(200).json({
+        message: 'User logged in', user: existingUser.toObject({getters: true})
+    })
 }

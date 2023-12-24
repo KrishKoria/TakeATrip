@@ -36,8 +36,8 @@ export const Authenticate = () => {
                 password: formState.inputs.password.value
             };
             try {
-                await sendRequest('http://localhost:5000/api/users/login', "POST", loginData, {'Content-Type': 'application/json'});
-                auth.login();
+                const response = await sendRequest('http://localhost:5000/api/users/login', "POST", loginData, {'Content-Type': 'application/json'});
+                auth.login(response.user.id);
             } catch (err) {
             }
         } else {
@@ -47,8 +47,8 @@ export const Authenticate = () => {
                 password: formState.inputs.password.value
             };
             try {
-                await sendRequest('http://localhost:5000/api/users/signup', "POST", signUpData, {'Content-Type': 'application/json'});
-                auth.login();
+                const response = await sendRequest('http://localhost:5000/api/users/signup', "POST", signUpData, {'Content-Type': 'application/json'});
+                auth.login(response.user.id);
             } catch (err) {
             }
         }
