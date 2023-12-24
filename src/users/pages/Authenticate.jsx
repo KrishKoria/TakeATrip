@@ -10,7 +10,7 @@ import {authContext} from "../../shared/components/Util/Context/auth-context.jsx
 import {ErrorModal} from "../../shared/components/UIElements/ErrorModal.jsx";
 import {LoadingSpinner} from "../../shared/components/UIElements/LoadingSpinner.jsx";
 import {useHttpHook} from "../../shared/components/Util/Hooks/http-hook.jsx";
-
+import {ImageUpload} from "../../shared/components/FormElements/ImageUpload.jsx";
 export const Authenticate = () => {
     const auth = useContext(authContext);
     const signupMsg = "Don't Have an Account, SIGNUP here";
@@ -30,6 +30,7 @@ export const Authenticate = () => {
 
     const authSubmitHandler = async event => {
         event.preventDefault();
+        console.log(formState.inputs)
         if (isLoginMode) {
             const loginData = {
                 email: formState.inputs.email.value,
@@ -57,13 +58,18 @@ export const Authenticate = () => {
         if (!isLoginMode) {
             setFormData({
                 ...formState.inputs,
-                name: undefined
+                name: undefined,
+                image: undefined
             }, formState.inputs.email.isValid && formState.inputs.password.isValid)
         } else {
             setFormData({
                 ...formState.inputs,
                 name: {
                     value: '',
+                    isValid: false
+                },
+                image: {
+                    value: null,
                     isValid: false
                 }
             }, false)
@@ -88,6 +94,7 @@ export const Authenticate = () => {
                         errorText="Please enter a name."
                         onInput={inputHandler}/>
                     }
+                    {!isLoginMode && <ImageUpload center id="image" onInput={inputHandler} />}
                     <Input
                         id="email"
                         element="input"
