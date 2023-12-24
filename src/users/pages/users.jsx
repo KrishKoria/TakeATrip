@@ -1,14 +1,40 @@
 import {UsersList} from "../components/UsersList.jsx";
-
+import axios from "axios";
+import {useEffect, useState} from "react";
+import React from "react";
+import {ErrorModal} from "../../shared/components/UIElements/ErrorModal.jsx";
+import {LoadingSpinner} from "../../shared/components/UIElements/LoadingSpinner.jsx";
 export const Users = () => {
-    const USERS = [
-        {
-            id: 'u1',
-            name: 'Max Schwarz',
-            image: 'https://avatars.githubusercontent.com/u/152809?s=460&u=9a2f2e8c5b1e5d8e3b2f3b5e0b5c6c3b4f4a5b2f&v=4',
-            places: 3
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
+    const [USERS, setUSERS] = useState([]);
+    useEffect(() => {
+        const sendRequest = async () => {
+            setLoading(true)
+            try {
+                const response = await axios.get('http://localhost:5000/api/users')
+                setUSERS(response.data.users)
+            } catch (err) {
+                setError(err.response.data.message || 'Something went wrong, please try again later.')
+            }
+            setLoading(false)
         }
-    ]
-  return (<UsersList items={USERS}/>)
+        sendRequest();
+    }, []);
+    const errorHandler = () => {
+        setError(null);
+    }
+
+    return (
+        <React.Fragment>
+            <ErrorModal error={error} onClear={errorHandler}/>
+            {loading && (
+                <div className="center">
+                    <LoadingSpinner asOverlay={true}/>
+                </div>
+            )}
+            <UsersList items={USERS}/>
+        </React.Fragment>
+    )
 }
 
