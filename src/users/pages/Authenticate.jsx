@@ -7,17 +7,16 @@ import {Card} from "../../shared/components/UIElements/Card.jsx";
 import {useForm} from "../../shared/components/Util/Hooks/Form-hook.jsx";
 import {useState, useContext} from "react";
 import {authContext} from "../../shared/components/Util/Context/auth-context.jsx";
-import axios from "axios";
 import {ErrorModal} from "../../shared/components/UIElements/ErrorModal.jsx";
 import {LoadingSpinner} from "../../shared/components/UIElements/LoadingSpinner.jsx";
+import {useHttpHook} from "../../shared/components/Util/Hooks/http-hook.jsx";
 
 export const Authenticate = () => {
     const auth = useContext(authContext);
     const signupMsg = "Don't Have an Account, SIGNUP here";
     const loginMsg = "Already Have an Account, LOGIN here";
     const [isLoginMode, setIsLoginMode] = useState(true);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState('');
+    const {loading, error, sendRequest, clearError} = useHttpHook();
     const [formState, inputHandler, setFormData] = useForm({
         email: {
             value: '',
@@ -31,25 +30,16 @@ export const Authenticate = () => {
 
     const authSubmitHandler = async event => {
         event.preventDefault();
-        setLoading(true);
         if (isLoginMode) {
             const loginData = {
                 email: formState.inputs.email.value,
                 password: formState.inputs.password.value
             };
             try {
-                await axios.post('http://localhost:5000/api/users/login', loginData, {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                });
-                setLoading(false);
+                await sendRequest('http://localhost:5000/api/users/login', "POST", loginData, {'Content-Type': 'application/json'});
                 auth.login();
             } catch (err) {
-                setLoading(false);
-                setError(err.response.data.message || 'Something went wrong, please try again later.');
             }
-
         } else {
             const signUpData = {
                 name: formState.inputs.name.value,
@@ -57,16 +47,9 @@ export const Authenticate = () => {
                 password: formState.inputs.password.value
             };
             try {
-                await axios.post('http://localhost:5000/api/users/signup', signUpData, {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                });
-                setLoading(false);
+                await sendRequest('http://localhost:5000/api/users/signup', "POST", signUpData, {'Content-Type': 'application/json'});
                 auth.login();
             } catch (err) {
-                setLoading(false);
-                setError(err.response.data.message || 'Something went wrong, please try again later.');
             }
         }
     }
@@ -87,25 +70,9 @@ export const Authenticate = () => {
         }
         setIsLoginMode(prevMode => !prevMode)
     }
-    const errorHandler = () => {
-        setError(null);
-    }
     return (
         <React.Fragment>
-            <ErrorModal error={error} onClear={errorHandler}/>
-            {/*<div className={"center"}>*/}
-            {/*    <AuthForm*/}
-            {/*        loading={loading}*/}
-            {/*        error={error}*/}
-            {/*        isLoginMode={isLoginMode}*/}
-            {/*        switchHandler={switchHandler}*/}
-            {/*        authSubmitHandler={authSubmitHandler}*/}
-            {/*        inputHandler={inputHandler}*/}
-            {/*        formState={formState}*/}
-            {/*        signupMsg={signupMsg}*/}
-            {/*        loginMsg={loginMsg}*/}
-            {/*    />*/}
-            {/*</div>*/}
+            <ErrorModal error={error} onClear={clearError}/>
             <Card className={"authentication"}>
                 {loading && <LoadingSpinner asOverlay={true}/>}
                 <form className={"place-form"} onSubmit={authSubmitHandler}>

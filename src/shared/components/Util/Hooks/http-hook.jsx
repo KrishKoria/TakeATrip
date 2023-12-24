@@ -10,14 +10,17 @@ export const useHttpHook = () => {
         const httpAbortCtrl = new AbortController();
         activeHttpRequests.current.push(httpAbortCtrl);
         try {
-            const response = await axios(method, url, data, headers, {signal: httpAbortCtrl.signal});
+            const response = await axios({method, url, data, headers, signal: httpAbortCtrl.signal});
+            setLoading(false)
+            activeHttpRequests.current = activeHttpRequests.current.filter(reqCtrl => reqCtrl !== httpAbortCtrl);
             return response.data;
         } catch (err) {
             setError(err.response.data.message || 'Something went wrong, please try again later.');
+            setLoading(false)
+            throw err.response.data.message
         }
-        setLoading(false)
     }, []);
-    const errorHandler = () => {
+    const clearError = () => {
         setError(null);
     }
     useEffect(() => {
@@ -25,5 +28,5 @@ export const useHttpHook = () => {
             activeHttpRequests.current.forEach(abortCtrl => abortCtrl.abort());
         }
     },[])
-    return {loading, error, sendRequest, errorHandler};
+    return {loading, error, sendRequest, clearError};
 };

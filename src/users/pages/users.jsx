@@ -1,33 +1,25 @@
 import {UsersList} from "../components/UsersList.jsx";
-import axios from "axios";
 import {useEffect, useState} from "react";
 import React from "react";
 import {ErrorModal} from "../../shared/components/UIElements/ErrorModal.jsx";
 import {LoadingSpinner} from "../../shared/components/UIElements/LoadingSpinner.jsx";
+import {useHttpHook} from "../../shared/components/Util/Hooks/http-hook.jsx";
 export const Users = () => {
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState('');
     const [USERS, setUSERS] = useState([]);
+    const {loading, error, sendRequest, clearError} = useHttpHook();
     useEffect(() => {
-        const sendRequest = async () => {
-            setLoading(true)
+        const getUsers = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/api/users')
-                setUSERS(response.data.users)
+                const response = await sendRequest('http://localhost:5000/api/users')
+                setUSERS(response.users)
             } catch (err) {
-                setError(err.response.data.message || 'Something went wrong, please try again later.')
             }
-            setLoading(false)
         }
-        sendRequest();
-    }, []);
-    const errorHandler = () => {
-        setError(null);
-    }
-
+        getUsers();
+    }, [sendRequest]);
     return (
         <React.Fragment>
-            <ErrorModal error={error} onClear={errorHandler}/>
+            <ErrorModal error={error} onClear={clearError}/>
             {loading && (
                 <div className="center">
                     <LoadingSpinner asOverlay={true}/>
