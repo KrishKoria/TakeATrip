@@ -31,27 +31,40 @@ export const Authenticate = () => {
 
     const authSubmitHandler = async event => {
         event.preventDefault();
-        const signUpData = {
-            name: formState.inputs.name.value,
-            email: formState.inputs.email.value,
-            password: formState.inputs.password.value
-        };
+        setLoading(true);
         if (isLoginMode) {
-
-        } else {
+            const loginData = {
+                email: formState.inputs.email.value,
+                password: formState.inputs.password.value
+            };
             try {
-                setLoading(true);
-                const response = await axios.post('http://localhost:5000/api/users/signup', signUpData, {
+                await axios.post('http://localhost:5000/api/users/login', loginData, {
                     headers: {
                         'Content-Type': 'application/json'
                     },
                 });
-                const responseData = response.data;
-                console.log(responseData);
                 setLoading(false);
                 auth.login();
             } catch (err) {
-                console.log(err);
+                setLoading(false);
+                setError(err.response.data.message || 'Something went wrong, please try again later.');
+            }
+
+        } else {
+            const signUpData = {
+                name: formState.inputs.name.value,
+                email: formState.inputs.email.value,
+                password: formState.inputs.password.value
+            };
+            try {
+                await axios.post('http://localhost:5000/api/users/signup', signUpData, {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                });
+                setLoading(false);
+                auth.login();
+            } catch (err) {
                 setLoading(false);
                 setError(err.response.data.message || 'Something went wrong, please try again later.');
             }
@@ -79,7 +92,7 @@ export const Authenticate = () => {
     }
     return (
         <React.Fragment>
-            <ErrorModal error={error} onClear={errorHandler} />
+            <ErrorModal error={error} onClear={errorHandler}/>
             {/*<div className={"center"}>*/}
             {/*    <AuthForm*/}
             {/*        loading={loading}*/}
@@ -94,7 +107,7 @@ export const Authenticate = () => {
             {/*    />*/}
             {/*</div>*/}
             <Card className={"authentication"}>
-                {loading && <LoadingSpinner asOverlay/>}
+                {loading && <LoadingSpinner asOverlay={true}/>}
                 <form className={"place-form"} onSubmit={authSubmitHandler}>
                     <h2>Login Required</h2>
                     <hr/>
