@@ -52,7 +52,7 @@ export const createNewPlace = async (req, res, next) => {
         description,
         address,
         location: coordinates,
-        image: "https://upload.wikimedia.org/wikipedia/commons/1/1e/Empire_State_Building_%28aerial_view%29.jpg",
+        image: "https://lh3.googleusercontent.com/p/AF1QipMIX-928q3UALK1TTi2ap33ucIs4tT2DwoZJNfS=s1360-w1360-h1020",
         creator
     });
     let user;

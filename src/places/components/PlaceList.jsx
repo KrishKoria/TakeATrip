@@ -8,7 +8,7 @@ export const PlaceList = (props) => {
             <div className="place-list center">
                 <Card>
                     <h2>No places found. Maybe create one?</h2>
-                    <Button to="/places/new">Share Place</Button>
+                    <Button to="/places/new">Add Place</Button>
                 </Card>
             </div>
         )
@@ -20,12 +20,13 @@ export const PlaceList = (props) => {
                     <PlaceItem
                         key={place.id}
                         id={place.id}
-                        image={place.imageUrl}
+                        image={place.image}
                         title={place.title}
                         description={place.description}
                         address={place.address}
                         creatorId={place.creator}
                         coordinates={place.location}
+                        onDelete={props.onDeletePlace}
                     />
                 )
             })}
