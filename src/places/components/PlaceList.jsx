@@ -2,13 +2,25 @@ import "./PlaceList.css"
 import {Card} from "../../shared/components/UIElements/Card.jsx";
 import {PlaceItem} from "./PlaceItem.jsx";
 import Button from "../../shared/components/FormElements/Button.jsx";
+import {authContext} from "../../shared/components/Util/Context/auth-context.jsx";
+import {useContext} from "react";
 export const PlaceList = (props) => {
-    if (props.items.length === 0) {
+    const auth = useContext(authContext);
+    if (auth.userId === props.userId && props.items.length === 0) {
         return (
             <div className="place-list center">
                 <Card>
                     <h2>No places found. Maybe create one?</h2>
                     <Button to="/places/new">Add Place</Button>
+                </Card>
+            </div>
+        )
+    }
+    if (auth.userId !== props.userId && props.items.length === 0) {
+        return (
+            <div className="place-list center">
+                <Card>
+                    <h2>This User Has No Places To Share</h2>
                 </Card>
             </div>
         )

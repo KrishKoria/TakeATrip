@@ -32,7 +32,7 @@ export const UserPlaces = () => {
                     <LoadingSpinner asOverlay={true}/>
                 </div>
             )}
-            {!loading && loadedPlaces && <PlaceList items={loadedPlaces} onDeletePlace={deletePlaceHandler}/>}
+            {!loading && loadedPlaces && <PlaceList items={loadedPlaces} onDeletePlace={deletePlaceHandler} userId={userId}/>}
         </React.Fragment>
     )
 };
