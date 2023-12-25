@@ -11,6 +11,7 @@ import {ErrorModal} from "../../shared/components/UIElements/ErrorModal.jsx";
 import {LoadingSpinner} from "../../shared/components/UIElements/LoadingSpinner.jsx";
 import {useHttpHook} from "../../shared/components/Util/Hooks/http-hook.jsx";
 import {ImageUpload} from "../../shared/components/FormElements/ImageUpload.jsx";
+
 export const Authenticate = () => {
     const auth = useContext(authContext);
     const signupMsg = "Don't Have an Account, SIGNUP here";
@@ -42,13 +43,13 @@ export const Authenticate = () => {
             } catch (err) {
             }
         } else {
-            const signUpData = {
-                name: formState.inputs.name.value,
-                email: formState.inputs.email.value,
-                password: formState.inputs.password.value
-            };
+            const signUpData = new FormData();
+            signUpData.append('name', formState.inputs.name.value);
+            signUpData.append('email', formState.inputs.email.value);
+            signUpData.append('password', formState.inputs.password.value);
+            signUpData.append('image', formState.inputs.image.value);
             try {
-                const response = await sendRequest('http://localhost:5000/api/users/signup', "POST", signUpData, {'Content-Type': 'application/json'});
+                const response = await sendRequest('http://localhost:5000/api/users/signup', "POST", signUpData, {'Content-Type': 'multipart/form-data'});
                 auth.login(response.user.id);
             } catch (err) {
             }
@@ -94,7 +95,7 @@ export const Authenticate = () => {
                         errorText="Please enter a name."
                         onInput={inputHandler}/>
                     }
-                    {!isLoginMode && <ImageUpload center id="image" onInput={inputHandler} />}
+                    {!isLoginMode && <ImageUpload center id="image" onInput={inputHandler}/>}
                     <Input
                         id="email"
                         element="input"
