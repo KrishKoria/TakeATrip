@@ -4,6 +4,7 @@ import {getCoords} from "../util/location.js";
 import {Place} from "../models/place.js";
 import {User} from "../models/user.js";
 import mongoose from "mongoose";
+import fs from "fs";
 
 export const getPlaceById = async (req, res, next) => {
     const placeId = req.params.pid;
@@ -52,7 +53,7 @@ export const createNewPlace = async (req, res, next) => {
         description,
         address,
         location: coordinates,
-        image: "https://lh3.googleusercontent.com/p/AF1QipMIX-928q3UALK1TTi2ap33ucIs4tT2DwoZJNfS=s1360-w1360-h1020",
+        image: req.file.path,
         creator
     });
     let user;
@@ -93,6 +94,9 @@ export const deletePlace = async (req, res, next) => {
     if (!place) {
         return next(new HttpErrors("Could not find place for this id.", 404));
     }
+    fs.unlink(place.image, err => {
+        console.log(err);
+    });
     res.status(200).json({message: "Deleted place."});
 }
 export const updatePlace = async (req, res, next) => {

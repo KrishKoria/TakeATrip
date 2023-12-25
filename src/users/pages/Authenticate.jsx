@@ -31,7 +31,6 @@ export const Authenticate = () => {
 
     const authSubmitHandler = async event => {
         event.preventDefault();
-        console.log(formState.inputs)
         if (isLoginMode) {
             const loginData = {
                 email: formState.inputs.email.value,
@@ -95,7 +94,7 @@ export const Authenticate = () => {
                         errorText="Please enter a name."
                         onInput={inputHandler}/>
                     }
-                    {!isLoginMode && <ImageUpload center id="image" onInput={inputHandler}/>}
+                    {!isLoginMode && <ImageUpload center id="image" onInput={inputHandler} errorText="Please provide an image."/>}
                     <Input
                         id="email"
                         element="input"
