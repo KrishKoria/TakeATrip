@@ -10,20 +10,20 @@ import {useState, useCallback} from "react";
 import React from "react";
 
 const App = () => {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [token, setToken] = useState();
     const [userId, setUserId] = useState(false);
 
-    const login = useCallback((uid) => {
-        setIsLoggedIn(true);
+    const login = useCallback((uid, token) => {
+        setToken(token);
         setUserId(uid)
     }, [])
     const logout = useCallback(() => {
-        setIsLoggedIn(false);
+        setToken(null);
         setUserId(null)
     }, [])
 
     let routes;
-    if (isLoggedIn) {
+    if (token) {
         routes = (
             <Routes>
                 <Route path="/" element={<Users/>}/>
@@ -44,7 +44,7 @@ const App = () => {
         )
     }
     return (
-        <authContext.Provider value={{isLoggedIn: isLoggedIn, login: login, logout: logout, userId: userId}}>
+        <authContext.Provider value={{isLoggedIn: !!token, token : token, login: login, logout: logout, userId: userId}}>
             <BrowserRouter>
                 <MainNavigation/>
                 <main>

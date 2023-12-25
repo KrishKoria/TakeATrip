@@ -38,7 +38,7 @@ export const Authenticate = () => {
             };
             try {
                 const response = await sendRequest('http://localhost:5000/api/users/login', "POST", loginData, {'Content-Type': 'application/json'});
-                auth.login(response.user.id);
+                auth.login(response.userId, response.token);
             } catch (err) {
             }
         } else {
@@ -49,7 +49,7 @@ export const Authenticate = () => {
             signUpData.append('image', formState.inputs.image.value);
             try {
                 const response = await sendRequest('http://localhost:5000/api/users/signup', "POST", signUpData, {'Content-Type': 'multipart/form-data'});
-                auth.login(response.user.id);
+                auth.login(response.userId, response.token);
             } catch (err) {
             }
         }

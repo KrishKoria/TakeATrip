@@ -85,6 +85,9 @@ export const deletePlace = async (req, res, next) => {
         const session = await mongoose.startSession();
         session.startTransaction();
         place = await Place.findByIdAndDelete(placeId, {session: session}).populate('creator');
+        if (place.creator.id !== req.userData.userId) {
+            return next(new HttpErrors("You are not allowed to delete this place.", 401));
+        }
         place.creator.places.pull(place);
         await place.creator.save({session: session});
         await session.commitTransaction();
@@ -97,6 +100,7 @@ export const deletePlace = async (req, res, next) => {
     fs.unlink(place.image, err => {
         console.log(err);
     });
+
     res.status(200).json({message: "Deleted place."});
 }
 export const updatePlace = async (req, res, next) => {
@@ -106,8 +110,12 @@ export const updatePlace = async (req, res, next) => {
     if (description !== undefined && description.length < 5) {
         return next(new HttpErrors("Description must be at least 5 characters long.", 422));
     }
+
     try {
         place = await Place.findById(placeId);
+        if (place.creator.toString() !== req.userData.userId) {
+            return next(new HttpErrors("You are not allowed to edit this place.", 401));
+        }
         place.title = title || place.title;
         place.description = description || place.description;
         await place.save();

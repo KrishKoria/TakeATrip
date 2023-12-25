@@ -12,6 +12,7 @@ import {ErrorModal} from "../../shared/components/UIElements/ErrorModal.jsx";
 import React from "react";
 import {authContext} from "../../shared/components/Util/Context/auth-context.jsx";
 import {useContext} from "react";
+
 export const UpdatePlace = () => {
     const auth = useContext(authContext);
     const placeId = useParams().placeid;
@@ -56,43 +57,46 @@ export const UpdatePlace = () => {
                 title: formState.inputs.title.value,
                 description: formState.inputs.description.value
             }
-            await sendRequest(`http://localhost:5000/api/places/${placeId}`, "PATCH", updateData, {'Content-Type': 'application/json'});
+            await sendRequest(`http://localhost:5000/api/places/${placeId}`, "PATCH", updateData, {
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + auth.token
+            });
             navigate(`/${auth.userId}/places`);
         } catch (err) {
 
         }
     }
-        if (loading) {
-            return (
-                <div className="center">
-                    <LoadingSpinner asOverlay={true}/>
-                </div>
-            )
-        }
-
-        if (!loadedPlace && !error) {
-            return (
-                <div className="center">
-                    <Card className={"place-form"}><h2>Could Not Find Place!</h2></Card>
-                </div>
-
-            )
-        }
+    if (loading) {
         return (
-            <React.Fragment>
-                <ErrorModal error={error} onClear={clearError}/>
-                {!loading && loadedPlace && (<form className={"place-form"} onSubmit={updateSubmitHandler}>
-                    <Input id="title" element="input" type="text" label="Title"
-                           validators={[VALIDATOR_REQUIRE(), VALIDATOR_MINLENGTH(5)]}
-                           errorText="Please enter a valid title." onInput={inputHandler}
-                           initialValue={formState.inputs.title.value}
-                           initialValid={formState.inputs.title.isValid}/>
-                    <Input id="description" element="textarea" label="Description" validators={[VALIDATOR_MINLENGTH(5)]}
-                           errorText="Please enter a valid description." onInput={inputHandler}
-                           initialValue={formState.inputs.description.value}
-                           initialValid={formState.inputs.description.isValid}/>
-                    <Button type="submit" disabled={!formState.isValid}>UPDATE PLACE</Button>
-                </form>)}
-            </React.Fragment>
+            <div className="center">
+                <LoadingSpinner asOverlay={true}/>
+            </div>
         )
     }
+
+    if (!loadedPlace && !error) {
+        return (
+            <div className="center">
+                <Card className={"place-form"}><h2>Could Not Find Place!</h2></Card>
+            </div>
+
+        )
+    }
+    return (
+        <React.Fragment>
+            <ErrorModal error={error} onClear={clearError}/>
+            {!loading && loadedPlace && (<form className={"place-form"} onSubmit={updateSubmitHandler}>
+                <Input id="title" element="input" type="text" label="Title"
+                       validators={[VALIDATOR_REQUIRE(), VALIDATOR_MINLENGTH(5)]}
+                       errorText="Please enter a valid title." onInput={inputHandler}
+                       initialValue={formState.inputs.title.value}
+                       initialValid={formState.inputs.title.isValid}/>
+                <Input id="description" element="textarea" label="Description" validators={[VALIDATOR_MINLENGTH(5)]}
+                       errorText="Please enter a valid description." onInput={inputHandler}
+                       initialValue={formState.inputs.description.value}
+                       initialValid={formState.inputs.description.isValid}/>
+                <Button type="submit" disabled={!formState.isValid}>UPDATE PLACE</Button>
+            </form>)}
+        </React.Fragment>
+    )
+}
