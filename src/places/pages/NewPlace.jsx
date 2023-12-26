@@ -40,7 +40,6 @@ export const NewPlace = () => {
             newPlaceData.append("title", formState.inputs.title.value)
             newPlaceData.append("description", formState.inputs.description.value)
             newPlaceData.append("address", formState.inputs.address.value)
-            newPlaceData.append("creator", auth.userId)
             newPlaceData.append("image", formState.inputs.image.value)
             await sendRequest('http://localhost:5000/api/places', "POST", newPlaceData, {
                 'Content-Type': 'multipart/form-data',
