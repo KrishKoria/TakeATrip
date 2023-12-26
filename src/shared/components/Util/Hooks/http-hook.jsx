@@ -10,6 +10,7 @@ export const useHttpHook = () => {
         const httpAbortCtrl = new AbortController();
         activeHttpRequests.current.push(httpAbortCtrl);
         try {
+            console.log(url, method, data, headers)
             const response = await axios({method, url, data, headers, signal: httpAbortCtrl.signal});
             setLoading(false)
             activeHttpRequests.current = activeHttpRequests.current.filter(reqCtrl => reqCtrl !== httpAbortCtrl);

@@ -10,7 +10,7 @@ export const Users = () => {
     useEffect(() => {
         const getUsers = async () => {
             try {
-                const response = await sendRequest('http://localhost:5000/api/users')
+                const response = await sendRequest(import.meta.env.VITE_BACKEND_URL+'/users')
                 setUSERS(response.users)
             } catch (err) {
             }

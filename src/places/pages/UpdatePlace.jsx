@@ -32,7 +32,7 @@ export const UpdatePlace = () => {
     useEffect(() => {
         const fetchPlace = async () => {
             try {
-                const response = await sendRequest(`http://localhost:5000/api/places/${placeId}`);
+                const response = await sendRequest(`${import.meta.env.VITE_BACKEND_URL}/places/${placeId}`);
                 setLoadedPlace(response.place);
                 setFormData({
                     title: {
@@ -57,7 +57,7 @@ export const UpdatePlace = () => {
                 title: formState.inputs.title.value,
                 description: formState.inputs.description.value
             }
-            await sendRequest(`http://localhost:5000/api/places/${placeId}`, "PATCH", updateData, {
+            await sendRequest(`${import.meta.env.VITE_BACKEND_URL}/places/${placeId}`, "PATCH", updateData, {
                 'Content-Type': 'application/json',
                 Authorization: 'Bearer ' + auth.token
             });

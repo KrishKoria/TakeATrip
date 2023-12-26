@@ -41,7 +41,7 @@ export const NewPlace = () => {
             newPlaceData.append("description", formState.inputs.description.value)
             newPlaceData.append("address", formState.inputs.address.value)
             newPlaceData.append("image", formState.inputs.image.value)
-            await sendRequest('http://localhost:5000/api/places', "POST", newPlaceData, {
+            await sendRequest(import.meta.env.VITE_BACKEND_URL + '/places', "POST", newPlaceData, {
                 'Content-Type': 'multipart/form-data',
                 Authorization: 'Bearer ' + auth.token
             });

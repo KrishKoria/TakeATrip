@@ -8,6 +8,7 @@ import {Authenticate} from "./users/pages/Authenticate.jsx";
 import {authContext} from "./shared/components/Util/Context/auth-context.jsx";
 import React from "react";
 import {useAuthHook} from "./shared/components/Util/Hooks/Auth-Hook.jsx";
+
 const App = () => {
     const {token, login, logout, userId} = useAuthHook();
     let routes;

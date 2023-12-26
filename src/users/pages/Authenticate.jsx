@@ -37,7 +37,7 @@ export const Authenticate = () => {
                 password: formState.inputs.password.value
             };
             try {
-                const response = await sendRequest('http://localhost:5000/api/users/login', "POST", loginData, {'Content-Type': 'application/json'});
+                const response = await sendRequest(import.meta.env.VITE_BACKEND_URL+ '/users/login', "POST", loginData, {'Content-Type': 'application/json'});
                 auth.login(response.userId, response.token);
             } catch (err) {
             }
@@ -48,7 +48,8 @@ export const Authenticate = () => {
             signUpData.append('password', formState.inputs.password.value);
             signUpData.append('image', formState.inputs.image.value);
             try {
-                const response = await sendRequest('http://localhost:5000/api/users/signup', "POST", signUpData, {'Content-Type': 'multipart/form-data'});
+                console.log("Hello World!")
+                const response = await sendRequest(import.meta.env.VITE_BACKEND_URL+'/users/signup', "POST", signUpData, {'Content-Type': 'multipart/form-data'});
                 auth.login(response.userId, response.token);
             } catch (err) {
             }

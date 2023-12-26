@@ -13,7 +13,7 @@ export const UserPlaces = () => {
     useEffect(() => {
         const fetchPlaces = async () => {
             try {
-                const response = await sendRequest(`http://localhost:5000/api/places/user/${userId}`);
+                const response = await sendRequest(`${import.meta.env.VITE_BACKEND_URL}/places/user/${userId}`);
                 setLoadedPlaces(response.places);
             } catch (e) {
             }

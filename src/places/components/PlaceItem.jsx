@@ -22,7 +22,7 @@ export const PlaceItem = (props) => {
     const confirmDeleteHandler = async () => {
         setShowConfirmModal(false);
         try {
-            await sendRequest(`http://localhost:5000/api/places/${props.id}`, "DELETE", null, {Authorization: "Bearer " + auth.token});
+            await sendRequest(`${import.meta.env.VITE_BACKEND_URL}/places/${props.id}`, "DELETE", null, {Authorization: "Bearer " + auth.token});
             props.onDelete(props.id);
         }   catch (err) {
         }
@@ -49,7 +49,7 @@ export const PlaceItem = (props) => {
                 <Card className={"place-item__content"}>
                     {loading && <LoadingSpinner asOverlay={true}/>}
                     <div className={"place-item__image"}>
-                        <img src={`http://localhost:5000/${props.image}`} alt={props.title}/>
+                        <img src={`${import.meta.env.VITE_ASSET_URL}/${props.image}`} alt={props.title}/>
                     </div>
                     <div className={"place-item__info"}>
                         <h2>{props.title}</h2>
